@@ -1,7 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <map>
 #include <vector>
 
-namespace front
+namespace http
 {
 class HttpRequest;
 class HttpResponse;
