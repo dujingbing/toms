@@ -1,5 +1,6 @@
 #include <include/http.h>
 #include <deps/uv/include/uv.h>
+#include <include/common.h>
 
 namespace server
 {
@@ -13,9 +14,11 @@ private:
 
     static const int MAX_CONNECT_SIZE = 10000;
 
-    static void OnConnected(uv_stream_t* server, int status);
+    static void OnConnected(uv_stream_t *server, int status);
 
     uv_loop_t *loop;
+
+    log::Log *log;
 
 public:
     HttpServer();
