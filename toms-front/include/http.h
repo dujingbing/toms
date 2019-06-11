@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <map>
 #include <vector>
+#include <deps/uv/include/uv.h>
+#include <deps/http-parser/http_parser.h>
 
 namespace http
 {
@@ -26,6 +28,10 @@ private:
 public:
     HttpRequest();
     ~HttpRequest();
+
+    uv_tcp_t *tcp;
+    http_parser *parser;
+    uv_write_t *write;
 
     void SetURI(const char *uri);
     const char *GetUri();
@@ -370,4 +376,4 @@ public:
     int GetVersion();
 };
 
-} // namespace front
+} // namespace http

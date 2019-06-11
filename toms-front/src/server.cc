@@ -1,6 +1,7 @@
 #include <include/server.h>
 
 using namespace server;
+using namespace http;
 
 HttpServer::HttpServer()
 {
@@ -15,6 +16,40 @@ HttpServer::~HttpServer()
 }
 
 void HttpServer::OnConnected(uv_stream_t *server, int status)
+{
+    if (status != 0)
+    {
+        log->Error(log::Constant::SERVER_LOG, "Toms-front server on connected error, detail %s.", uv_err_name(status));
+        exit(1);
+    }
+
+    HttpRequest *request = new HttpRequest();
+    int tcp = uv_tcp_init(loop, request->tcp);
+    if (tcp != 0)
+    {
+        log->Error(log::Constant::SERVER_LOG, "Toms-front server on connected error, detail %s.", uv_err_name(tcp));
+        exit(1);
+    }
+    http_parser_init(request->parser, HTTP_REQUEST);
+
+    request->parser->data = request;
+    request->tcp->data = request;
+    int accept = uv_accept(server, (uv_stream_t *)request->tcp);
+    if (accept != 0)
+    {
+        log->Error(log::Constant::SERVER_LOG, "Toms-front server on connected error, detail %s.", uv_err_name(accept));
+        exit(1);
+    }
+
+    uv_read_start((uv_stream_t *)request->tcp, this->AllocCallback, this->OnRead);
+}
+
+void HttpServer::AllocCallback(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf)
+{
+    *buf = uv_buf_init((char *)malloc(suggested_size), suggested_size);
+}
+
+void HttpServer::OnRead(uv_stream_t *tcp, ssize_t nread, const uv_buf_t *buf)
 {
 }
 
@@ -56,7 +91,7 @@ bool HttpServer::Listen(int port)
         exit(1);
     }
 
-    int listen = uv_listen((uv_stream_t *)&server, MAX_CONNECT_SIZE, OnConnected);
+    int listen = uv_listen((uv_stream_t *)&server, MAX_CONNECT_SIZE, this->OnConnected);
     if (listen != 0)
     {
         log->Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(listen));
