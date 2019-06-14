@@ -23,7 +23,7 @@ void HttpServer::OnConnected(uv_stream_t *server, int status)
         exit(1);
     }
 
-    HttpRequest *request = new HttpRequest();
+    Request *request = new Request();
     int tcp = uv_tcp_init(loop, request->tcp);
     if (tcp != 0)
     {
