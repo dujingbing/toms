@@ -8,10 +8,6 @@ HttpServer::HttpServer()
 {
 }
 
-HttpServer::HttpServer(int port)
-{
-}
-
 HttpServer::~HttpServer()
 {
 }
@@ -51,6 +47,46 @@ void HttpServer::AllocCallback(uv_handle_t *handle, size_t suggested_size, uv_bu
 }
 
 void HttpServer::OnRead(uv_stream_t *tcp, ssize_t nread, const uv_buf_t *buf)
+{
+}
+
+int HttpServer::OnMessageBegin(http_parser *parser)
+{
+}
+
+int HttpServer::OnUrl(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpServer::OnStatus(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpServer::OnHeaderField(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpServer::OnHeaderValue(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpServer::OnHeadersComplete(http_parser *parser)
+{
+}
+
+int HttpServer::OnBody(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpServer::OnMessageComplete(http_parser *parser)
+{
+}
+
+int HttpServer::OnChunkHeader(http_parser *parser)
+{
+}
+
+int HttpServer::OnChunkComplete(http_parser *parser)
 {
 }
 
