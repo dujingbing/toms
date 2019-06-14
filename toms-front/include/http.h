@@ -7,11 +7,12 @@
 
 namespace http
 {
-class HttpRequest;
-class HttpResponse;
+class Request;
+class Response;
 class Cookie;
+class Status;
 
-class HttpRequest
+class Request
 {
 private:
     const char *uri;
@@ -26,8 +27,8 @@ private:
     std::map<const char *, const char *> parameters;
 
 public:
-    HttpRequest();
-    ~HttpRequest();
+    Request();
+    ~Request();
 
     uv_tcp_t *tcp;
     http_parser *parser;
@@ -65,14 +66,18 @@ public:
     std::vector<const char *> &GetParameterNames();
 };
 
-class HttpResponse
+class Response
 {
 private:
+    uv_write_t *write;
     int status;
     std::map<const char *, const char *> headers;
     std::map<const char *, Cookie> cookies;
 
 public:
+    Response();
+    ~Response();
+
     void AddCookie(Cookie &cookie);
 
     void AddHeader(const char *name, const char *value);
@@ -84,7 +89,61 @@ public:
     void SetStatus(int status);
 
     void SendRedirect(const char *location);
+};
 
+class Cookie
+{
+private:
+    const char *name;
+    const char *value;
+    const char *domain;
+    const char *path;
+    const char *comment;
+    bool secure;
+    bool httpOnly;
+    int expire;
+    int version;
+
+public:
+    Cookie();
+
+    Cookie(const char *name, const char *value, const char *path);
+
+    Cookie(const char *name, const char value, const char *path, int expire);
+
+    ~Cookie();
+
+    void SetName(const char *name);
+    const char *GetName();
+
+    void SetValue(const char *value_compare);
+    const char *GetValue();
+
+    void SetDomain(const char *domain);
+    const char *GetDomain();
+
+    void SetPath(const char *path);
+    const char *GetPath();
+
+    void SetComment(const char *comment);
+    const char *GetComment();
+
+    void SetSecure(bool secure);
+    bool GetSecure();
+
+    void SetHttpOnly(bool httpOnly);
+    bool GetHttpOnly();
+
+    void SetExpire(int expire);
+    int GetExpire();
+
+    void SetVersion(int version);
+    int GetVersion();
+};
+
+class Status
+{
+public:
     /**
      * 
      * Status code (100) indicating the client can continue.
@@ -324,56 +383,6 @@ public:
      *  Status code (505) indicating that the server does not support or refuses to support the HTTP protocol version that was used in the request message.
     */
     static const int SC_HTTP_VERSION_NOT_SUPPORTED = 505;
-};
-
-class Cookie
-{
-private:
-    const char *name;
-    const char *value;
-    const char *domain;
-    const char *path;
-    const char *comment;
-    bool secure;
-    bool httpOnly;
-    int expire;
-    int version;
-
-public:
-    Cookie();
-
-    Cookie(const char *name, const char *value, const char *path);
-
-    Cookie(const char *name, const char value, const char *path, int expire);
-
-    ~Cookie();
-
-    void SetName(const char *name);
-    const char *GetName();
-
-    void SetValue(const char *value_compare);
-    const char *GetValue();
-
-    void SetDomain(const char *domain);
-    const char *GetDomain();
-
-    void SetPath(const char *path);
-    const char *GetPath();
-
-    void SetComment(const char *comment);
-    const char *GetComment();
-
-    void SetSecure(bool secure);
-    bool GetSecure();
-
-    void SetHttpOnly(bool httpOnly);
-    bool GetHttpOnly();
-
-    void SetExpire(int expire);
-    int GetExpire();
-
-    void SetVersion(int version);
-    int GetVersion();
 };
 
 } // namespace http

@@ -19,8 +19,6 @@ private:
 
     void OnRead(uv_stream_t* tcp, ssize_t nread, const uv_buf_t * buf);
 
-
-
     uv_loop_t *loop;
 
     log::Log *log;

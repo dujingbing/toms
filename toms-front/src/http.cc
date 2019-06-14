@@ -2,94 +2,142 @@
 
 using namespace http;
 
-HttpRequest::HttpRequest()
+Request::Request()
 {
 }
 
-HttpRequest::~HttpRequest()
+Request::~Request()
 {
 }
 
-void HttpRequest::SetURI(const char *uri)
+void Request::SetURI(const char *uri)
 {
 }
 
-const char *HttpRequest::GetUri()
+const char *Request::GetUri()
 {
 }
 
-void HttpRequest::SetURL(const char *url)
+void Request::SetURL(const char *url)
 {
 }
 
-const char *HttpRequest::GetURL()
+const char *Request::GetURL()
 {
 }
 
-void HttpRequest::SetIP(const char *ip)
+void Request::SetIP(const char *ip)
 {
 }
 
-const char *HttpRequest::GetIP()
+const char *Request::GetIP()
 {
 }
 
-void HttpRequest::SetPort(int port)
+void Request::SetPort(int port)
 {
 }
 
-int HttpRequest::GetPort()
+int Request::GetPort()
 {
 }
 
-void HttpRequest::SetContent(const char *content)
+void Request::SetContent(const char *content)
 {
 }
 
-const char *HttpRequest::GetContent()
+const char *Request::GetContent()
 {
 }
 
-void HttpRequest::SetContentType(const char *contentType)
+void Request::SetContentType(const char *contentType)
 {
 }
 
-const char *HttpRequest::GetContentType()
+const char *Request::GetContentType()
 {
 }
 
-int HttpRequest::GetContentLength()
+int Request::GetContentLength()
 {
 }
 
-void HttpRequest::SetHeader(const char *name, const char *value)
+void Request::SetHeader(const char *name, const char *value)
 {
 }
 
-const char *HttpRequest::GetHeader(const char *name)
+const char *Request::GetHeader(const char *name)
 {
 }
 
-void HttpRequest::SetCookie(Cookie &cookie)
+void Request::SetCookie(Cookie &cookie)
 {
 }
 
-const char *HttpRequest::GetCookieValue(const char *name)
+const char *Request::GetCookieValue(const char *name)
 {
 }
 
-Cookie &HttpRequest::GetCookie(const char *name)
+Cookie &Request::GetCookie(const char *name)
 {
 }
 
-void HttpRequest::SetParameter(const char *name, const char *value)
+void Request::SetParameter(const char *name, const char *value)
 {
 }
 
-const char *HttpRequest::GetParameterValue(const char *name)
+const char *Request::GetParameterValue(const char *name)
 {
 }
 
-std::vector<const char *> &HttpRequest::GetParameterNames()
+std::vector<const char *> &Request::GetParameterNames()
+{
+}
+
+Response::Response()
+{
+}
+
+Response::~Response()
+{
+}
+
+void Response::AddCookie(Cookie &cookie)
+{
+}
+
+void Response::AddHeader(const char *name, const char *value)
+{
+}
+
+void Response::Send(int status)
+{
+}
+
+void Response::Send(int status, const char *message)
+{
+}
+
+void Response::SetStatus(int status)
+{
+}
+
+void Response::SendRedirect(const char *location)
+{
+}
+
+Cookie::Cookie()
+{
+}
+
+Cookie::Cookie(const char *name, const char *value, const char *path)
+{
+}
+
+Cookie::Cookie(const char *name, const char value, const char *path, int expire)
+{
+}
+
+Cookie::~Cookie()
 {
 }
