@@ -6,6 +6,14 @@ using namespace log;
 
 HttpServer::HttpServer()
 {
+    setting.on_message_begin = this->OnMessageBegin;
+    setting.on_url = this->OnUrl;
+    setting.on_status = this->OnStatus;
+    setting.on_header_field = this->OnHeaderField;
+    setting.on_header_value = this->OnHeaderValue;
+    setting.on_headers_complete = this->OnHeadersComplete;
+    setting.on_body = this->OnBody;
+    setting.on_message_complete = this->OnMessageComplete;
 }
 
 HttpServer::~HttpServer()
@@ -79,14 +87,6 @@ int HttpServer::OnBody(http_parser *parser, const char *at, size_t length)
 }
 
 int HttpServer::OnMessageComplete(http_parser *parser)
-{
-}
-
-int HttpServer::OnChunkHeader(http_parser *parser)
-{
-}
-
-int HttpServer::OnChunkComplete(http_parser *parser)
 {
 }
 

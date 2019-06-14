@@ -39,10 +39,6 @@ private:
 
     int OnMessageComplete(http_parser *parser);
 
-    int OnChunkHeader(http_parser *parser);
-
-    int OnChunkComplete(http_parser *parser);
-
 public:
     HttpServer();
     ~HttpServer();
