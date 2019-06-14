@@ -2,6 +2,7 @@
 
 using namespace server;
 using namespace http;
+using namespace log;
 
 HttpServer::HttpServer()
 {
@@ -19,7 +20,7 @@ void HttpServer::OnConnected(uv_stream_t *server, int status)
 {
     if (status != 0)
     {
-        log->Error(log::Constant::SERVER_LOG, "Toms-front server on connected error, detail %s.", uv_err_name(status));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server on connected error, detail %s.", uv_err_name(status));
         exit(1);
     }
 
@@ -27,7 +28,7 @@ void HttpServer::OnConnected(uv_stream_t *server, int status)
     int tcp = uv_tcp_init(loop, request->tcp);
     if (tcp != 0)
     {
-        log->Error(log::Constant::SERVER_LOG, "Toms-front server on connected error, detail %s.", uv_err_name(tcp));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server on connected error, detail %s.", uv_err_name(tcp));
         exit(1);
     }
     http_parser_init(request->parser, HTTP_REQUEST);
@@ -37,7 +38,7 @@ void HttpServer::OnConnected(uv_stream_t *server, int status)
     int accept = uv_accept(server, (uv_stream_t *)request->tcp);
     if (accept != 0)
     {
-        log->Error(log::Constant::SERVER_LOG, "Toms-front server on connected error, detail %s.", uv_err_name(accept));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server on connected error, detail %s.", uv_err_name(accept));
         exit(1);
     }
 
@@ -62,7 +63,7 @@ bool HttpServer::Listen(int port)
 {
     if (port < 1024 || port > 49150)
     {
-        log->Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, server port(%d) is invalid.", port);
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, server port(%d) is invalid.", port);
         exit(1);
     }
 
@@ -72,7 +73,7 @@ bool HttpServer::Listen(int port)
     int tcp_init = uv_tcp_init(loop, &server);
     if (tcp_init != 0)
     {
-        log->Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(tcp_init));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(tcp_init));
         exit(1);
     }
 
@@ -80,30 +81,30 @@ bool HttpServer::Listen(int port)
     int ip4_addr = uv_ip4_addr("127.0.0.1", port, &address);
     if (ip4_addr != 0)
     {
-        log->Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(ip4_addr));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(ip4_addr));
         exit(1);
     }
 
     int tcp_bind = uv_tcp_bind(&server, (const struct sockaddr *)&address, 0);
     if (tcp_bind != 0)
     {
-        log->Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(tcp_bind));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(tcp_bind));
         exit(1);
     }
 
     int listen = uv_listen((uv_stream_t *)&server, MAX_CONNECT_SIZE, this->OnConnected);
     if (listen != 0)
     {
-        log->Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(listen));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(listen));
         exit(1);
     }
 
-    log->Info(log::Constant::SERVER_LOG, "Toms-front server start on port '%d'.", port);
+    Log::Info(log::Constant::SERVER_LOG, "Toms-front server start on port '%d'.", port);
 
     int run = uv_run(loop, UV_RUN_DEFAULT);
     if (run != 0)
     {
-        log->Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", run);
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", run);
     }
 }
 

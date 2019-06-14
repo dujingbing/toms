@@ -13,6 +13,8 @@ private:
 
     static const int MAX_CONNECT_SIZE = 10000;
 
+    http_parser_settings setting;
+
     void OnConnected(uv_stream_t *server, int status);
 
     void AllocCallback(uv_handle_t * handle, size_t suggested_size, uv_buf_t* buf);
@@ -20,8 +22,6 @@ private:
     void OnRead(uv_stream_t* tcp, ssize_t nread, const uv_buf_t * buf);
 
     uv_loop_t *loop;
-
-    log::Log *log;
 
 public:
     HttpServer();

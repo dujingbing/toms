@@ -7,36 +7,19 @@ class Log;
 
 class Log
 {
+private:
+    static const char *home;
+
 public:
-    /**
-     * 
-     * initialize 'Log' instance with current process directory.
-    */
-    Log();
+    static void initialize(const char *home);
 
-    /**
-     * 
-     * initialize 'Log' instance with the specificed directory.
-    */
-    Log(const char *home);
+    static void Info(const char *file, const char *message, ...);
 
-    ~Log();
+    static void Debug(const char *file, const char *message, ...);
 
-    void Info(const char *message, ...);
+    static void Warn(const char *file, const char *message, ...);
 
-    void Info(const char *file, const char *message, ...);
-
-    void Debug(const char *message, ...);
-
-    void Debug(const char *file, const char *message, ...);
-
-    void Warn(const char *message, ...);
-
-    void Warn(const char *file, const char *message, ...);
-
-    void Error(const char *message, ...);
-
-    void Error(const char *file, const char *message, ...);
+    static void Error(const char *file, const char *message, ...);
 };
 
 class Constant
@@ -48,8 +31,5 @@ public:
 
     static const char *CONFIG_LOG;
 };
-const char *Constant::SERVER_LOG = "server.log";
-const char *Constant::ROUTE_LOG = "route.log";
-const char *Constant::CONFIG_LOG = "config.log";
 
 } // namespace log
