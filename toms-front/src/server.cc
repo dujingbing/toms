@@ -142,7 +142,7 @@ bool HttpServer::Listen(int port)
     int run = uv_run(loop, UV_RUN_DEFAULT);
     if (run != 0)
     {
-        Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", run);
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", uv_err_name(run));
     }
 }
 
