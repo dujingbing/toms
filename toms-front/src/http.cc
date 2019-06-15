@@ -62,6 +62,26 @@ int Request::GetContentLength()
 {
 }
 
+void Request::SetHeaderField(const char *field)
+{
+}
+
+const char *Request::GetHeaderField()
+{
+}
+
+void Request::SetHeaderValue(const char *value)
+{
+}
+
+const char *Request::GetHeaderValue()
+{
+}
+
+void Request::ClearHeader()
+{
+}
+
 void Request::SetHeader(const char *name, const char *value)
 {
 }

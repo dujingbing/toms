@@ -5,6 +5,7 @@ namespace server
 {
 class HttpServer;
 class HttpCallback;
+class ServerCallback;
 class ProtoServer;
 
 class HttpServer
@@ -38,9 +39,16 @@ public:
 
 class HttpCallback
 {
+private:
+    uv_loop_t *loop;
+
+    ServerCallback *scb;
+
 public:
     HttpCallback();
     ~HttpCallback();
+
+    void SetLoop(uv_loop_t *loop);
 
     int OnMessageBegin(http_parser *parser);
 
@@ -57,6 +65,17 @@ public:
     int OnBody(http_parser *parser, const char *at, size_t length);
 
     int OnMessageComplete(http_parser *parser);
+};
+
+class ServerCallback
+{
+public:
+    ServerCallback();
+    ~ServerCallback();
+
+    void Work(uv_work_t *req);
+
+    void AfterWork(uv_work_t *req);
 };
 
 class ProtoServer

@@ -114,6 +114,7 @@ bool HttpServer::Listen(int port)
         Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", uv_err_name(tcp_init));
         exit(1);
     }
+    cb->SetLoop(loop);
 
     sockaddr_in address;
     int ip4_addr = uv_ip4_addr("127.0.0.1", port, &address);
@@ -148,9 +149,15 @@ bool HttpServer::Listen(int port)
 
 HttpCallback::HttpCallback()
 {
+    scb = new ServerCallback();
 }
 
 HttpCallback::~HttpCallback()
+{
+    delete scb;
+}
+
+void HttpCallback::SetLoop(uv_loop_t *loop)
 {
 }
 
@@ -222,6 +229,28 @@ int HttpCallback::OnBody(http_parser *parser, const char *body, size_t length)
 }
 
 int HttpCallback::OnMessageComplete(http_parser *parser)
+{
+    Request *request = (Request *)parser->data;
+    int status = uv_queue_work(loop, &request->work, scb->Work, scb->AfterWork);
+    if (status != 0)
+    {
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server on message complete error, detail %s.", uv_err_name(status));
+    }
+    return 0;
+}
+
+ServerCallback::ServerCallback()
+{
+}
+ServerCallback::~ServerCallback()
+{
+}
+
+void ServerCallback::Work(uv_work_t *req)
+{
+}
+
+void ServerCallback::AfterWork(uv_work_t *req)
 {
 }
 

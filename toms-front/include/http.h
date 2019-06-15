@@ -36,6 +36,7 @@ public:
     uv_tcp_t *tcp;
     http_parser *parser;
     uv_write_t *write;
+    uv_work_t work;
 
     void SetURI(const char *uri);
     const char *GetUri();
