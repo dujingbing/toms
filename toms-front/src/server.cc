@@ -101,7 +101,7 @@ bool HttpServer::Listen(int port)
 {
     if (port < 1024 || port > 49150)
     {
-        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, server port(%d) is invalid.", port);
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, server port(%d) is invalid.", port);
         exit(1);
     }
 
@@ -111,7 +111,7 @@ bool HttpServer::Listen(int port)
     int tcp_init = uv_tcp_init(loop, &server);
     if (tcp_init != 0)
     {
-        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(tcp_init));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", uv_err_name(tcp_init));
         exit(1);
     }
 
@@ -119,21 +119,21 @@ bool HttpServer::Listen(int port)
     int ip4_addr = uv_ip4_addr("127.0.0.1", port, &address);
     if (ip4_addr != 0)
     {
-        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(ip4_addr));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", uv_err_name(ip4_addr));
         exit(1);
     }
 
     int tcp_bind = uv_tcp_bind(&server, (const struct sockaddr *)&address, 0);
     if (tcp_bind != 0)
     {
-        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(tcp_bind));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", uv_err_name(tcp_bind));
         exit(1);
     }
 
     int listen = uv_listen((uv_stream_t *)&server, MAX_CONNECT_SIZE, this->OnConnected);
     if (listen != 0)
     {
-        Log::Error(log::Constant::SERVER_LOG, "Toms-front server initialized error, detail %s.", uv_err_name(listen));
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", uv_err_name(listen));
         exit(1);
     }
 
@@ -156,30 +156,69 @@ HttpCallback::~HttpCallback()
 
 int HttpCallback::OnMessageBegin(http_parser *parser)
 {
+    return 0;
 }
 
-int HttpCallback::OnUrl(http_parser *parser, const char *at, size_t length)
+int HttpCallback::OnUrl(http_parser *parser, const char *url, size_t length)
 {
+    Request *request = (Request *)parser->data;
+    struct http_parser_url parser_url;
+    int result = http_parser_parse_url(url, length, 0, &parser_url);
+    if (result)
+    {
+        Log::Error(log::Constant::SERVER_LOG, "Toms-front server on url parsing error, url %s.", url);
+        return -1;
+    }
+    else
+    {
+        if ((parser_url.field_set & (1 << UF_PATH)))
+        {
+            const char *data = url + parser_url.field_data[UF_PATH].off;
+            request->SetURL(url);
+        }
+        else
+        {
+            Log::Error(log::Constant::SERVER_LOG, "Toms-front server on url parsing error, url %s.", url);
+            return -1;
+        }
+    }
+    return 0;
 }
 
-int HttpCallback::OnStatus(http_parser *parser, const char *at, size_t length)
+int HttpCallback::OnStatus(http_parser *parser, const char *status, size_t length)
 {
+    Request *request = (Request *)parser->data;
+    request->SetStatus(status);
+    return 0;
 }
 
-int HttpCallback::OnHeaderField(http_parser *parser, const char *at, size_t length)
+int HttpCallback::OnHeaderField(http_parser *parser, const char *filed, size_t length)
 {
+    Request *request = (Request *)parser->data;
+    request->SetHeaderField(filed);
+    return 0;
 }
 
-int HttpCallback::OnHeaderValue(http_parser *parser, const char *at, size_t length)
+int HttpCallback::OnHeaderValue(http_parser *parser, const char *value, size_t length)
 {
+    Request *request = (Request *)parser->data;
+    request->SetHeaderField(value);
+    return 0;
 }
 
 int HttpCallback::OnHeadersComplete(http_parser *parser)
 {
+    Request *request = (Request *)parser->data;
+    request->SetHeader(request->GetHeaderField(), request->GetHeaderValue());
+    request->ClearHeader();
+    return 0;
 }
 
-int HttpCallback::OnBody(http_parser *parser, const char *at, size_t length)
+int HttpCallback::OnBody(http_parser *parser, const char *body, size_t length)
 {
+    Request *request = (Request *)parser->data;
+    request->SetContent(body);
+    return 0;
 }
 
 int HttpCallback::OnMessageComplete(http_parser *parser)

@@ -22,6 +22,9 @@ private:
     int contentLength;
     int contentType;
     const char *content;
+    const char *status;
+    const char *headerFiled;
+    const char *headerValue;
     std::map<const char *, const char *> headers;
     std::map<const char *, Cookie> cookies;
     std::map<const char *, const char *> parameters;
@@ -54,6 +57,11 @@ public:
 
     int GetContentLength();
 
+    void SetHeaderField(const char *field);
+    const char *GetHeaderField();
+    void SetHeaderValue(const char *value);
+    const char *GetHeaderValue();
+    void ClearHeader();
     void SetHeader(const char *name, const char *value);
     const char *GetHeader(const char *name);
 
@@ -64,6 +72,9 @@ public:
     void SetParameter(const char *name, const char *value);
     const char *GetParameterValue(const char *name);
     std::vector<const char *> &GetParameterNames();
+
+    void SetStatus(const char *status);
+    const char *GetStatus();
 };
 
 class Response
