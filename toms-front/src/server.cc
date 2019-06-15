@@ -56,8 +56,40 @@ void HttpServer::AllocCallback(uv_handle_t *handle, size_t suggested_size, uv_bu
     *buf = uv_buf_init((char *)malloc(suggested_size), suggested_size);
 }
 
+void HttpServer::OnClose(uv_handle_t *handle)
+{
+    Request *request = (Request *)handle->data;
+    delete request;
+}
+
 void HttpServer::OnRead(uv_stream_t *tcp, ssize_t nread, const uv_buf_t *buf)
 {
+    ssize_t parsed;
+    Request *request = (Request *)tcp->data;
+    if (nread >= 0)
+    {
+        parsed = (ssize_t)http_parser_execute(
+            request->parser, &setting, buf->base, nread);
+        if (request->parser->upgrade)
+        {
+            Log::Error(log::Constant::SERVER_LOG, "Toms-front server on read error, cannot handle http upgrade.");
+            uv_close((uv_handle_t *)request->tcp, this->OnClose);
+        }
+        else if (parsed < nread)
+        {
+            Log::Error(log::Constant::SERVER_LOG, "Toms-front server on read error, arse error.");
+            uv_close((uv_handle_t *)request->tcp, this->OnClose);
+        }
+    }
+    else
+    {
+        if (nread != UV_EOF)
+        {
+            Log::Error(log::Constant::SERVER_LOG, "Toms-front server on read error, nread is not to 'EOF'.");
+        }
+        uv_close((uv_handle_t *)request->tcp, this->OnClose);
+    }
+    free(buf->base);
 }
 
 bool HttpServer::Listen()

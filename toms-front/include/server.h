@@ -26,6 +26,8 @@ private:
 
     void OnRead(uv_stream_t *tcp, ssize_t nread, const uv_buf_t *buf);
 
+    void OnClose(uv_handle_t *handle);
+
 public:
     HttpServer();
     ~HttpServer();
