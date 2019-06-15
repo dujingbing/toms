@@ -6,18 +6,20 @@ using namespace log;
 
 HttpServer::HttpServer()
 {
-    setting.on_message_begin = this->OnMessageBegin;
-    setting.on_url = this->OnUrl;
-    setting.on_status = this->OnStatus;
-    setting.on_header_field = this->OnHeaderField;
-    setting.on_header_value = this->OnHeaderValue;
-    setting.on_headers_complete = this->OnHeadersComplete;
-    setting.on_body = this->OnBody;
-    setting.on_message_complete = this->OnMessageComplete;
+    cb = new HttpCallback();
+    setting.on_message_begin = cb->OnMessageBegin;
+    setting.on_url = cb->OnUrl;
+    setting.on_status = cb->OnStatus;
+    setting.on_header_field = cb->OnHeaderField;
+    setting.on_header_value = cb->OnHeaderValue;
+    setting.on_headers_complete = cb->OnHeadersComplete;
+    setting.on_body = cb->OnBody;
+    setting.on_message_complete = cb->OnMessageComplete;
 }
 
 HttpServer::~HttpServer()
 {
+    delete cb;
 }
 
 void HttpServer::OnConnected(uv_stream_t *server, int status)
@@ -55,38 +57,6 @@ void HttpServer::AllocCallback(uv_handle_t *handle, size_t suggested_size, uv_bu
 }
 
 void HttpServer::OnRead(uv_stream_t *tcp, ssize_t nread, const uv_buf_t *buf)
-{
-}
-
-int HttpServer::OnMessageBegin(http_parser *parser)
-{
-}
-
-int HttpServer::OnUrl(http_parser *parser, const char *at, size_t length)
-{
-}
-
-int HttpServer::OnStatus(http_parser *parser, const char *at, size_t length)
-{
-}
-
-int HttpServer::OnHeaderField(http_parser *parser, const char *at, size_t length)
-{
-}
-
-int HttpServer::OnHeaderValue(http_parser *parser, const char *at, size_t length)
-{
-}
-
-int HttpServer::OnHeadersComplete(http_parser *parser)
-{
-}
-
-int HttpServer::OnBody(http_parser *parser, const char *at, size_t length)
-{
-}
-
-int HttpServer::OnMessageComplete(http_parser *parser)
 {
 }
 
@@ -142,6 +112,46 @@ bool HttpServer::Listen(int port)
     {
         Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", run);
     }
+}
+
+HttpCallback::HttpCallback()
+{
+}
+
+HttpCallback::~HttpCallback()
+{
+}
+
+int HttpCallback::OnMessageBegin(http_parser *parser)
+{
+}
+
+int HttpCallback::OnUrl(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpCallback::OnStatus(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpCallback::OnHeaderField(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpCallback::OnHeaderValue(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpCallback::OnHeadersComplete(http_parser *parser)
+{
+}
+
+int HttpCallback::OnBody(http_parser *parser, const char *at, size_t length)
+{
+}
+
+int HttpCallback::OnMessageComplete(http_parser *parser)
+{
 }
 
 ProtoServer::ProtoServer()

@@ -4,6 +4,7 @@
 namespace server
 {
 class HttpServer;
+class HttpCallback;
 class ProtoServer;
 
 class HttpServer
@@ -15,6 +16,8 @@ private:
 
     uv_loop_t *loop;
 
+    HttpCallback *cb;
+
     http_parser_settings setting;
 
     void OnConnected(uv_stream_t *server, int status);
@@ -22,6 +25,20 @@ private:
     void AllocCallback(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf);
 
     void OnRead(uv_stream_t *tcp, ssize_t nread, const uv_buf_t *buf);
+
+public:
+    HttpServer();
+    ~HttpServer();
+
+    bool Listen();
+    bool Listen(int port);
+};
+
+class HttpCallback
+{
+public:
+    HttpCallback();
+    ~HttpCallback();
 
     int OnMessageBegin(http_parser *parser);
 
@@ -38,13 +55,6 @@ private:
     int OnBody(http_parser *parser, const char *at, size_t length);
 
     int OnMessageComplete(http_parser *parser);
-
-public:
-    HttpServer();
-    ~HttpServer();
-
-    bool Listen();
-    bool Listen(int port);
 };
 
 class ProtoServer
