@@ -246,11 +246,11 @@ ServerCallback::~ServerCallback()
 {
 }
 
-void ServerCallback::Work(uv_work_t *req)
+void ServerCallback::Work(uv_work_t *work)
 {
 }
 
-void ServerCallback::AfterWork(uv_work_t *req)
+void ServerCallback::AfterWork(uv_work_t *work)
 {
 }
 

@@ -1,6 +1,47 @@
 #include <include/common.h>
 
 using namespace log;
+using namespace config;
+
+Config::Config()
+{
+}
+
+Config::~Config()
+{
+}
+
+void Config::initialize()
+{
+}
+
+ServerConfig *Config::GetServerConfig()
+{
+}
+
+LogConfig *Config::GetLogConfig()
+{
+}
+
+ServerConfig::ServerConfig()
+{
+}
+
+ServerConfig::~ServerConfig()
+{
+}
+
+void ServerConfig::SetPort()
+{
+}
+
+int ServerConfig::GetPort()
+{
+}
+
+void Log::initialize(config::LogConfig *config)
+{
+}
 
 void Log::Info(const char *file, const char *message, ...)
 {

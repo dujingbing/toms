@@ -73,9 +73,9 @@ public:
     ServerCallback();
     ~ServerCallback();
 
-    void Work(uv_work_t *req);
+    void Work(uv_work_t *work);
 
-    void AfterWork(uv_work_t *req);
+    void AfterWork(uv_work_t *work);
 };
 
 class ProtoServer
