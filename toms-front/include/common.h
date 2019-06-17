@@ -6,10 +6,13 @@ namespace config
 class Config;
 class ServerConfig;
 class LogConfig;
+class Constant;
 
 class Config
 {
 private:
+    const char *workDir;
+
     ServerConfig *server;
     LogConfig *log;
 
@@ -57,6 +60,13 @@ public:
     int GetMaxFileSize();
 };
 
+class Constant
+{
+public:
+    static const char *CONFIG_FILE_NAME;
+};
+const char *Constant::CONFIG_FILE_NAME = "config/config.json";
+
 }; // namespace config
 
 namespace log
@@ -89,4 +99,7 @@ public:
     static const char *CONFIG_LOG;
 };
 
+const char *Constant::SERVER_LOG = "server.log";
+const char *Constant::ROUTE_LOG = "route.log";
+const char *Constant::CONFIG_LOG = "config.log";
 } // namespace log
