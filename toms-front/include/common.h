@@ -26,6 +26,7 @@ class ServerConfig
 {
 private:
     int port;
+    int maxConnectionSize;
 
 public:
     ServerConfig();
@@ -33,6 +34,9 @@ public:
 
     void SetPort();
     int GetPort();
+
+    void SetMaxConnectionSize(int size);
+    int GetMaxConnectionSize();
 };
 
 class LogConfig
@@ -63,7 +67,6 @@ class Constant;
 class Log
 {
 private:
-
 public:
     static void initialize(config::LogConfig *config);
 

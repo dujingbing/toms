@@ -94,7 +94,7 @@ void HttpServer::OnRead(uv_stream_t *tcp, ssize_t nread, const uv_buf_t *buf)
 
 bool HttpServer::Listen()
 {
-    Listen(DEFAULT_PORT);
+    Listen(config->GetPort());
 }
 
 bool HttpServer::Listen(int port)
@@ -131,7 +131,7 @@ bool HttpServer::Listen(int port)
         exit(1);
     }
 
-    int listen = uv_listen((uv_stream_t *)&server, MAX_CONNECT_SIZE, this->OnConnected);
+    int listen = uv_listen((uv_stream_t *)&server, config->GetMaxConnectionSize(), this->OnConnected);
     if (listen != 0)
     {
         Log::Error(log::Constant::SERVER_LOG, "Toms-front server start error, detail %s.", uv_err_name(listen));

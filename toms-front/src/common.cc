@@ -39,6 +39,14 @@ int ServerConfig::GetPort()
 {
 }
 
+void ServerConfig::SetMaxConnectionSize(int size)
+{
+}
+
+int ServerConfig::GetMaxConnectionSize()
+{
+}
+
 void Log::initialize(config::LogConfig *config)
 {
 }

@@ -11,9 +11,7 @@ class ProtoServer;
 class HttpServer
 {
 private:
-    static const int DEFAULT_PORT = 6666;
-
-    static const int MAX_CONNECT_SIZE = 10000;
+    config::ServerConfig *config;
 
     uv_loop_t *loop;
 
