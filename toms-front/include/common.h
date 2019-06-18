@@ -12,8 +12,6 @@ class Constant;
 class Config
 {
 private:
-    const char *workDir;
-
     HttpServerConfig *http;
     ProtoServerConfig *proto;
     LogConfig *log;
