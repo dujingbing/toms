@@ -6,6 +6,7 @@
 
 using namespace log;
 using namespace config;
+using namespace files;
 
 Config::Config()
 {
@@ -15,22 +16,13 @@ Config::~Config()
 {
 }
 
-void Config::initialize()
+bool Config::initialize(const char *configFile)
 {
-    workDir = getcwd(NULL, 0);
-    if (workDir == NULL)
-    {
-        perror("Toms-front server config error, cannot get current work directory.");
-        exit(1);
-    }
-    //build configuration file path.
-    char *configFile = new char[strlen(workDir) + strlen(config::Constant::CONFIG_FILE_NAME) + 1];
-    sprintf(configFile, "%s%s", workDir, config::Constant::CONFIG_FILE_NAME);
-
     //read configuration.
+
 }
 
-ServerConfig *Config::GetServerConfig()
+HttpServerConfig *Config::GetHttpServerConfig()
 {
 }
 
@@ -38,31 +30,47 @@ LogConfig *Config::GetLogConfig()
 {
 }
 
-ServerConfig::ServerConfig()
+HttpServerConfig::HttpServerConfig()
 {
 }
 
-ServerConfig::~ServerConfig()
+HttpServerConfig::~HttpServerConfig()
 {
 }
 
-void ServerConfig::SetPort()
+void HttpServerConfig::SetPort(int port)
 {
 }
 
-int ServerConfig::GetPort()
+int HttpServerConfig::GetPort()
 {
 }
 
-void ServerConfig::SetMaxConnectionSize(int size)
+void HttpServerConfig::SetMaxConnectionSize(int size)
 {
 }
 
-int ServerConfig::GetMaxConnectionSize()
+int HttpServerConfig::GetMaxConnectionSize()
 {
 }
 
-void Log::initialize(config::LogConfig *config)
+ProtoServerConfig::ProtoServerConfig()
+{
+}
+
+ProtoServerConfig::~ProtoServerConfig()
+{
+}
+
+void ProtoServerConfig::SetPort(int port)
+{
+}
+
+int ProtoServerConfig::GetPort()
+{
+}
+
+bool Log::initialize(config::LogConfig *config)
 {
 }
 
@@ -80,4 +88,22 @@ void Log::Warn(const char *file, const char *message, ...)
 
 void Log::Error(const char *file, const char *message, ...)
 {
+}
+
+bool FileUtils::exist(const char *path)
+{
+    if (path == nullptr)
+    {
+        return false;
+    }
+    FILE *file = fopen(path, "r");
+    if (file == NULL)
+    {
+        return false;
+    }
+    else
+    {
+        fclose(file);
+        return true;
+    }
 }

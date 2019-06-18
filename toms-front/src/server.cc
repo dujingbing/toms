@@ -4,8 +4,10 @@ using namespace server;
 using namespace http;
 using namespace log;
 
-HttpServer::HttpServer()
+HttpServer::HttpServer(config::HttpServerConfig *config)
 {
+    this->config = config;
+
     cb = new HttpCallback();
     setting.on_message_begin = cb->OnMessageBegin;
     setting.on_url = cb->OnUrl;
@@ -254,7 +256,7 @@ void ServerCallback::AfterWork(uv_work_t *work)
 {
 }
 
-ProtoServer::ProtoServer()
+ProtoServer::ProtoServer(config::ProtoServerConfig *config)
 {
 }
 

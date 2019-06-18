@@ -11,7 +11,7 @@ class ProtoServer;
 class HttpServer
 {
 private:
-    config::ServerConfig *config;
+    config::HttpServerConfig *config;
 
     uv_loop_t *loop;
 
@@ -28,7 +28,7 @@ private:
     void OnClose(uv_handle_t *handle);
 
 public:
-    HttpServer();
+    HttpServer(config::HttpServerConfig *config);
     ~HttpServer();
 
     bool Listen();
@@ -79,7 +79,7 @@ public:
 class ProtoServer
 {
 public:
-    ProtoServer();
+    ProtoServer(config::ProtoServerConfig *config);
     ProtoServer(int port);
     ~ProtoServer();
 

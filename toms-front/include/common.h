@@ -4,7 +4,8 @@
 namespace config
 {
 class Config;
-class ServerConfig;
+class HttpServerConfig;
+class ProtoServerConfig;
 class LogConfig;
 class Constant;
 
@@ -13,33 +14,48 @@ class Config
 private:
     const char *workDir;
 
-    ServerConfig *server;
+    HttpServerConfig *http;
+    ProtoServerConfig *proto;
     LogConfig *log;
 
 public:
     Config();
     ~Config();
 
-    void initialize();
-    ServerConfig *GetServerConfig();
+    bool initialize(const char *configFile);
+    HttpServerConfig *GetHttpServerConfig();
+    ProtoServerConfig *GetProtoServerConfig();
     LogConfig *GetLogConfig();
 };
 
-class ServerConfig
+class HttpServerConfig
 {
 private:
     int port;
     int maxConnectionSize;
 
 public:
-    ServerConfig();
-    ~ServerConfig();
+    HttpServerConfig();
+    ~HttpServerConfig();
 
-    void SetPort();
+    void SetPort(int port);
     int GetPort();
 
     void SetMaxConnectionSize(int size);
     int GetMaxConnectionSize();
+};
+
+class ProtoServerConfig
+{
+private:
+    int port;
+
+public:
+    ProtoServerConfig();
+    ~ProtoServerConfig();
+
+    void SetPort(int port);
+    int GetPort();
 };
 
 class LogConfig
@@ -78,7 +94,7 @@ class Log
 {
 private:
 public:
-    static void initialize(config::LogConfig *config);
+    static bool initialize(config::LogConfig *config);
 
     static void Info(const char *file, const char *message, ...);
 
@@ -103,3 +119,14 @@ const char *Constant::SERVER_LOG = "server.log";
 const char *Constant::ROUTE_LOG = "route.log";
 const char *Constant::CONFIG_LOG = "config.log";
 } // namespace log
+
+namespace files
+{
+class FileUtils;
+
+class FileUtils
+{
+public:
+    static bool exist(const char *path);
+};
+} // namespace files
