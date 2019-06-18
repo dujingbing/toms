@@ -23,7 +23,7 @@ bool FileUtils::Exist(const char *path)
     }
 }
 
-const char *FileUtils::Read(const char *path)
+char *FileUtils::Read(const char *path)
 {
     if (path == nullptr)
     {
