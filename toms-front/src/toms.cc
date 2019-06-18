@@ -25,4 +25,6 @@ int main(int argc, char *argv[])
 
     server::HttpServer *httpServer = new server::HttpServer(config->GetHttpServerConfig());
     httpServer->Listen();
+
+    return 0;
 }
