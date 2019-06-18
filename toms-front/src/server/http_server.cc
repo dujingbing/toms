@@ -255,23 +255,3 @@ void ServerCallback::Work(uv_work_t *work)
 void ServerCallback::AfterWork(uv_work_t *work)
 {
 }
-
-ProtoServer::ProtoServer(config::ProtoServerConfig *config)
-{
-}
-
-ProtoServer::ProtoServer(int port)
-{
-}
-
-ProtoServer::~ProtoServer()
-{
-}
-
-bool ProtoServer::Listen()
-{
-}
-
-bool ProtoServer::Listen(int port)
-{
-}
