@@ -19,5 +19,4 @@ Config::~Config()
 bool Config::initialize(const char *configFile)
 {
     //read configuration.
-
 }

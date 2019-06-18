@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
     const char *configPath = argv[1];
-    if (!files::FileUtils::exist(configPath))
+    if (!files::FileUtils::Exist(configPath))
     {
         printf("Toms-front server start error, configuration file does not exist, file '%s'.", configPath);
         exit(1);

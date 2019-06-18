@@ -125,6 +125,8 @@ class FileUtils;
 class FileUtils
 {
 public:
-    static bool exist(const char *path);
+    static bool Exist(const char *file);
+
+    static const char *Read(const char *file);
 };
 } // namespace files
