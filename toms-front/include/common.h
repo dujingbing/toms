@@ -24,7 +24,14 @@ public:
     HttpServerConfig *GetHttpServerConfig();
     ProtoServerConfig *GetProtoServerConfig();
     LogConfig *GetLogConfig();
+
+    static const char *HTTTP_SERVER_KEY;
+    static const char *PROTO_SERVER_KEY;
+    static const char *LOG_KEY;
 };
+const char *Config::HTTTP_SERVER_KEY = "httpServer";
+const char *Config::PROTO_SERVER_KEY = "protoServer";
+const char *Config::LOG_KEY = "log";
 
 class HttpServerConfig
 {
@@ -41,7 +48,12 @@ public:
 
     void SetMaxConnectionSize(int size);
     int GetMaxConnectionSize();
+
+    static const char *PORT_KEY;
+    static const char *MAX_CONNECTION_SIZE_KEY;
 };
+const char *HttpServerConfig::PORT_KEY = "port";
+const char *HttpServerConfig::MAX_CONNECTION_SIZE_KEY = "maxConnectionSize";
 
 class ProtoServerConfig
 {
@@ -54,7 +66,10 @@ public:
 
     void SetPort(int port);
     int GetPort();
+
+    static const char *PORT_KEY;
 };
+const char *ProtoServerConfig::PORT_KEY = "port";
 
 class LogConfig
 {
@@ -72,14 +87,12 @@ public:
 
     void SetMaxFileSize(int size);
     int GetMaxFileSize();
-};
 
-class Constant
-{
-public:
-    static const char *CONFIG_FILE_NAME;
+    static const char *HOME_KEY;
+    static const char *MAX_FILE_SIZE_KEY;
 };
-const char *Constant::CONFIG_FILE_NAME = "config/config.json";
+const char *LogConfig::HOME_KEY = "port";
+const char *LogConfig::MAX_FILE_SIZE_KEY = "maxConnectionSize";
 
 }; // namespace config
 
