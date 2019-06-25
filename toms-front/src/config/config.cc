@@ -28,6 +28,8 @@ bool Config::initialize(const char *configFile)
 
     Document document;
     document.Parse(config);
+
+    //validate configuration.
     if (document.HasParseError())
     {
         free(config);
@@ -60,10 +62,24 @@ bool Config::initialize(const char *configFile)
         printf("Toms-front server config parse error, no 'port' in the 'httpServer' configuration.");
         return false;
     }
+    rapidjson::Value &httpPort = httpServer[HttpServerConfig::PORT_KEY];
+    if (!httpPort.IsInt())
+    {
+        free(config);
+        printf("Toms-front server config parse error, 'port' in the 'httpServer' configuration is not a int value.");
+        return false;
+    }
     if (!httpServer.HasMember(HttpServerConfig::MAX_CONNECTION_SIZE_KEY))
     {
         free(config);
         printf("Toms-front server config parse error, no 'maxConnectionSize' in the 'httpServer' configuration.");
+        return false;
+    }
+    rapidjson::Value &httpMaxConnectionSize = httpServer[HttpServerConfig::MAX_CONNECTION_SIZE_KEY];
+    if (!httpMaxConnectionSize.IsString())
+    {
+        free(config);
+        printf("Toms-front server config parse error, 'maxConnectionSize' in the 'httpServer' configuration is not a string value.");
         return false;
     }
 
@@ -74,18 +90,56 @@ bool Config::initialize(const char *configFile)
         printf("Toms-front server config parse error, no 'port' in the 'protoServer' configuration.");
         return false;
     }
+    rapidjson::Value &protoServerPort = protoServer[ProtoServerConfig::PORT_KEY];
+    if (!protoServerPort.IsInt())
+    {
+        free(config);
+        printf("Toms-front server config parse error, 'port' in the 'protoServer' configuration is not a int value.");
+        return false;
+    }
 
     rapidjson::Value &log = document[Config::LOG_KEY];
-    if (!httpServer.HasMember(LogConfig::HOME_KEY))
+    if (!log.HasMember(LogConfig::HOME_KEY))
     {
         free(config);
         printf("Toms-front server config parse error, no 'home' in the 'log' configuration.");
         return false;
     }
-    if (!httpServer.HasMember(LogConfig::MAX_FILE_SIZE_KEY))
+    rapidjson::Value &logHome = protoServer[LogConfig::HOME_KEY];
+    if (!logHome.IsString())
+    {
+        free(config);
+        printf("Toms-front server config parse error, 'home' in the 'log' configuration is not a string value.");
+        return false;
+    }
+    if (!log.HasMember(LogConfig::MAX_FILE_SIZE_KEY))
     {
         free(config);
         printf("Toms-front server config parse error, no 'maxConnectionSize' in the 'log' configuration.");
         return false;
     }
+    rapidjson::Value &logMaxFileSize = protoServer[LogConfig::MAX_FILE_SIZE_KEY];
+    if (!logMaxFileSize.IsInt64())
+    {
+        free(config);
+        printf("Toms-front server config parse error, 'maxConnectionSize' in the 'log' configuration is not a string value.");
+        return false;
+    }
+
+    //initialize http server configuration.
+    HttpServerConfig *httpServerConfig = new HttpServerConfig();
+    httpServerConfig->SetPort(httpPort.GetInt());
+    httpServerConfig->SetMaxConnectionSize(httpMaxConnectionSize.GetInt());
+    this->http = httpServerConfig;
+
+    ProtoServerConfig *protoServerConfig = new ProtoServerConfig();
+    protoServerConfig->SetPort(protoServerPort.GetInt());
+    this->proto = protoServerConfig;
+
+    LogConfig *logConfig = new LogConfig();
+    logConfig->SetHome(logHome.GetString());
+    logConfig->SetMaxFileSize(logMaxFileSize.GetInt());
+    this->log = logConfig;
+
+    return true;
 }
