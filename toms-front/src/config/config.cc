@@ -15,6 +15,9 @@ Config::Config()
 
 Config::~Config()
 {
+    delete http;
+    delete proto;
+    delete log;
 }
 
 bool Config::initialize(const char *configFile)
