@@ -11,6 +11,21 @@ bool Log::initialize(config::LogConfig *config)
     {
         return false;
     }
+    if (!files::FileUtils::Exist(config->GetHome()))
+    {
+        return false;
+    }
+    if (config->GetMaxFileSize() > 512)
+    {
+        //max file size 512MB.
+        config->SetMaxFileSize(512);
+    }
+    if (config->GetMaxFileSize() < 5)
+    {
+        //min file size 5MB.
+        config->SetMaxFileSize(5);
+    }
+    return true;
 }
 
 void Log::Info(const char *file, const char *message, ...)
