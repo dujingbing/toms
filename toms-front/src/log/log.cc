@@ -7,6 +7,10 @@ using namespace files;
 
 bool Log::initialize(config::LogConfig *config)
 {
+    if (config == nullptr)
+    {
+        return false;
+    }
 }
 
 void Log::Info(const char *file, const char *message, ...)
