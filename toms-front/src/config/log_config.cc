@@ -25,3 +25,11 @@ void LogConfig::SetMaxFileSize(int size)
 int LogConfig::GetMaxFileSize()
 {
 }
+
+void LogConfig::SetMaxMessageSize(int size)
+{
+}
+
+int LogConfig::GetMaxMessageSize()
+{
+}

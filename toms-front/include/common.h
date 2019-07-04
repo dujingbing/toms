@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <map>
+#include <time.h>
 
 namespace config
 {
@@ -78,6 +81,8 @@ private:
     //MB
     int maxFileSize;
 
+    int maxMessageSize;
+
 public:
     LogConfig();
     ~LogConfig();
@@ -88,11 +93,16 @@ public:
     void SetMaxFileSize(int size);
     int GetMaxFileSize();
 
+    void SetMaxMessageSize(int size);
+    int GetMaxMessageSize();
+
     static const char *HOME_KEY;
     static const char *MAX_FILE_SIZE_KEY;
+    static const char *MAX_MESSAGE_SIZE_KEY;
 };
 const char *LogConfig::HOME_KEY = "port";
 const char *LogConfig::MAX_FILE_SIZE_KEY = "maxConnectionSize";
+const char *LogConfig::MAX_MESSAGE_SIZE_KEY = "maxMessageSize";
 
 }; // namespace config
 
@@ -104,16 +114,19 @@ class Constant;
 class Log
 {
 private:
+    static config::LogConfig *config;
+    static std::map<const char *, FILE *> logFile;
+
 public:
     static bool initialize(config::LogConfig *config);
 
-    static void Info(const char *file, const char *message, ...);
+    static void Info(const char *fileName, const char *message, ...);
 
-    static void Debug(const char *file, const char *message, ...);
+    static void Debug(const char *fileName, const char *message, ...);
 
-    static void Warn(const char *file, const char *message, ...);
+    static void Warn(const char *fileName, const char *message, ...);
 
-    static void Error(const char *file, const char *message, ...);
+    static void Error(const char *fileName, const char *message, ...);
 };
 
 class Constant
