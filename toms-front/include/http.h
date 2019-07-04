@@ -73,7 +73,7 @@ public:
 
     void SetParameter(const char *name, const char *value);
     const char *GetParameterValue(const char *name);
-    std::vector<const char *> &GetParameterNames();
+    std::vector<const char *> *GetParameterNames();
 
     void SetStatus(const char *status);
     const char *GetStatus();
