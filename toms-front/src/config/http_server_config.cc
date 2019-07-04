@@ -1,20 +1,6 @@
-#include <unistd.h>
 #include <include/common.h>
-#include <deps/rapidjson/include/rapidjson/document.h>
-#include <deps/rapidjson/include/rapidjson/writer.h>
-#include <deps/rapidjson/include/rapidjson/stringbuffer.h>
 
-using namespace log;
 using namespace config;
-using namespace files;
-
-HttpServerConfig *Config::GetHttpServerConfig()
-{
-}
-
-LogConfig *Config::GetLogConfig()
-{
-}
 
 HttpServerConfig::HttpServerConfig()
 {
@@ -26,16 +12,20 @@ HttpServerConfig::~HttpServerConfig()
 
 void HttpServerConfig::SetPort(int port)
 {
+    this->port = port;
 }
 
 int HttpServerConfig::GetPort()
 {
+    return port;
 }
 
 void HttpServerConfig::SetMaxConnectionSize(int size)
 {
+    this->maxConnectionSize = size;
 }
 
 int HttpServerConfig::GetMaxConnectionSize()
 {
+    return maxConnectionSize;
 }

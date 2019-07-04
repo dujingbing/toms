@@ -146,3 +146,18 @@ bool Config::initialize(const char *configFile)
 
     return true;
 }
+
+HttpServerConfig *Config::GetHttpServerConfig()
+{
+    return http;
+}
+
+ProtoServerConfig *Config::GetProtoServerConfig()
+{
+    return proto;
+}
+
+LogConfig *Config::GetLogConfig()
+{
+    return log;
+}
