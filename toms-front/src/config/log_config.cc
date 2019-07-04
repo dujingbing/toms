@@ -9,10 +9,7 @@ LogConfig::LogConfig()
 
 LogConfig::~LogConfig()
 {
-    if (home != nullptr)
-    {
-        delete[] home;
-    }
+    delete[] home;
 }
 
 void LogConfig::SetHome(const char *home)

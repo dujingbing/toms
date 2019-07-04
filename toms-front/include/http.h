@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <map>
 #include <vector>
 #include <deps/uv/include/uv.h>
@@ -121,7 +122,7 @@ public:
 
     Cookie(const char *name, const char *value, const char *path);
 
-    Cookie(const char *name, const char value, const char *path, int expire);
+    Cookie(const char *name, const char *value, const char *path, int expire);
 
     ~Cookie();
 
