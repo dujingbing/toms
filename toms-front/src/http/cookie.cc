@@ -17,19 +17,19 @@ Cookie::Cookie()
 
 Cookie::Cookie(const char *name, const char *value, const char *path)
 {
-    if (name != nullptr && name[0] != '\0')
+    if (name != nullptr)
     {
         char *tmp = new char[strlen(name) + 1];
         strcpy(tmp, name);
         this->name = tmp;
     }
-    if (value != nullptr && value[0] != '\0')
+    if (value != nullptr)
     {
         char *tmp = new char[strlen(value) + 1];
         strcpy(tmp, value);
         this->value = tmp;
     }
-    if (path != nullptr && path[0] != '\0')
+    if (path != nullptr)
     {
         char *tmp = new char[strlen(path) + 1];
         strcpy(tmp, path);
@@ -54,7 +54,7 @@ Cookie::~Cookie()
 
 void Cookie::SetName(const char *name)
 {
-    if (name != nullptr && name[0] != '\0')
+    if (name != nullptr)
     {
         char *tmp = new char[strlen(name) + 1];
         strcpy(tmp, name);
@@ -69,7 +69,7 @@ const char *Cookie::GetName()
 
 void Cookie::SetValue(const char *value)
 {
-    if (value != nullptr && value[0] != '\0')
+    if (value != nullptr)
     {
         char *tmp = new char[strlen(value) + 1];
         strcpy(tmp, value);
@@ -84,7 +84,7 @@ const char *Cookie::GetValue()
 
 void Cookie::SetDomain(const char *domain)
 {
-    if (domain != nullptr && domain[0] != '\0')
+    if (domain != nullptr)
     {
         char *tmp = new char[strlen(domain) + 1];
         strcpy(tmp, domain);
@@ -99,7 +99,7 @@ const char *Cookie::GetDomain()
 
 void Cookie::SetPath(const char *path)
 {
-    if (path != nullptr && path[0] != '\0')
+    if (path != nullptr)
     {
         char *tmp = new char[strlen(path) + 1];
         strcpy(tmp, path);
@@ -114,7 +114,7 @@ const char *Cookie::GetPath()
 
 void Cookie::SetComment(const char *comment)
 {
-    if (comment != nullptr && comment[0] != '\0')
+    if (comment != nullptr)
     {
         char *tmp = new char[strlen(comment) + 1];
         strcpy(tmp, comment);

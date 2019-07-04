@@ -21,13 +21,13 @@ private:
     const char *ip;
     int port;
     int contentLength;
-    int contentType;
+    const char *contentType;
     const char *content;
     const char *status;
     const char *headerFiled;
     const char *headerValue;
     std::map<const char *, const char *> headers;
-    std::map<const char *, Cookie> cookies;
+    std::map<const char *, Cookie *> cookies;
     std::map<const char *, const char *> parameters;
 
 public:
@@ -69,7 +69,7 @@ public:
 
     void SetCookie(Cookie &cookie);
     const char *GetCookieValue(const char *name);
-    Cookie &GetCookie(const char *name);
+    Cookie *GetCookie(const char *name);
 
     void SetParameter(const char *name, const char *value);
     const char *GetParameterValue(const char *name);
