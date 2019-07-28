@@ -1,0 +1,35 @@
+[package]
+name = "toms"
+version = "0.1.0"
+authors = ["dujingbing <dujingbing_csu@163.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+path = "func/src/main.rs"
+name = "toms-func"
+
+[[bin]]
+path = "front/src/main.rs"
+name = "toms-front"
+
+[[bin]]
+path = "admin/src/main.rs"
+name = "toms-admin"
+
+[[bin]]
+path = "applet/src/main.rs"
+name = "toms-applet"
+
+[[bin]]
+path = "exchanger/src/main.rs"
+name = "toms-exchanger"
+
+[[bin]]
+path = "hub/src/main.rs"
+name = "toms-hub"
+
+[dependencies]
+actix-web = "1.0.5"
+futures="0.1"
