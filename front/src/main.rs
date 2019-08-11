@@ -1,16 +1,9 @@
-use actix_web::{web, App, HttpResponse, HttpServer, Responder};
-
-fn index() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
-}
+mod server;
+use server::FrontServer;
+use server::FrontHttpServer;
 
 fn main() {
-    HttpServer::new(|| {
-        App::new()
-            .route("/", web::get().to(index))
-    })
-    .bind("127.0.0.1:8080")
-    .unwrap()
-    .run()
-    .unwrap();
+    let http_server = FrontHttpServer { port: 8080 };
+    println!("Server started, port {}.", http_server.port);
+    http_server.start();
 }
